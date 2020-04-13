@@ -7,6 +7,7 @@
  * Author: William Rey
  * Author URI: http://wrey75.wordpress.com/
  * License: GPL2
+ * Text Domain: slithy-web
  *
  */
 
@@ -16,5 +17,6 @@ if(defined('SLITHYWEB_ID')){
 }
 
 if(is_admin()){
+    include_once(dirname(__FILE__). "/admin-page.php");
     $slithyAdminMonitor = new SlithyWebAdministrator();
 }
