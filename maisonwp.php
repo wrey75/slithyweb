@@ -8,7 +8,7 @@ if (!defined('WPINC')) die;
  * not a custormer of our hosting solutions, this part of the controller should never
  * be loaded.
  * 
- * The call to our backend is made directly by passing both the website identifier
+ * The call to our backend is made directly by pag both the website identifier
  * (found in wp-config.php) and the authentification key.
  *
  */

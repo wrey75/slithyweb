@@ -10,9 +10,8 @@
  *
  */
 
-echo "****";
 if(defined('SLITHYWEB_ID')){
-    include_once(dirname(__FILE__). "/monitoring.php");
+    include_once(dirname(__FILE__). "/maisonwp.php");
     $slithywebMonitor = new SlithyWebMonitoring();
 }
 
