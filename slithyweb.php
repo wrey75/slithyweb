@@ -9,4 +9,10 @@
  * License: GPL2
  *
  */
-?>
+
+if(defined('SLITHYWEB_ID')){
+    include_once(dirname(__FILE__). "/monitoring.php");
+    $slithywebMonitor = new SlithyWebMonitoring();
+
+   
+}
