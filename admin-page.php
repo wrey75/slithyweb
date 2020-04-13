@@ -21,6 +21,22 @@ class SlithyWebAdministrator {
             array($this, 'render_plugin_settings_page'));
     }
 
+    function render_plugin_settings_page() {
+        echo "<h1>" . __("Slithy Web Plugin Settings", 'slithy-web') . "</h1>";
+        echo "<h2>" . __("Slithy Web hosting", 'slithy-web') . ' (<a href="https://maisonwp.com/">maisonwp.com</a>)</h2>';
+        if(defined("SLITHYWEB_ID")){
+            echo "<strong>" . __("Site identifier") . ":</strong> <code>" . SLITHYWEB_ID . "</code>\n";
+            _e("(can not be changed).", 'slithy-web');
+        } else {
+            _e("This Website is not hosted by our recommended hosting service. Never mind.", 'slithy-web');
+        }
+        // echo '<form action="options.php" method="post">';
+        // settings_fields( 'slithyweb_plugin_options' );
+        // do_settings_sections( 'slithyweb_api_plugin' );
+        // echo '<input name="submit" class="button button-primary" type="submit" value="' . esc_attr_e( 'Save' ) . '" />';
+        // echo '</form>';
+    }
+
     /**
      * Register the settings of the administration page
      */
@@ -56,16 +72,16 @@ class SlithyWebAdministrator {
 
     function dbi_plugin_setting_api_key() {
         $options = get_option( 'slithyweb_plugin_options' );
-        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[api_key]' type='text' value='{esc_attr( $options['api_key'] )}' />";
+        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[api_key]' type='text' value='" . esc_attr( $options['api_key'] ) . "' />";
     }
 
     function dbi_plugin_setting_results_limit() {
         $options = get_option( 'slithyweb_plugin_options' );
-        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[results_limit]' type='text' value='{esc_attr( $options['results_limit'] )}' />";
+        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[results_limit]' type='text' value='" . esc_attr( $options['results_limit']) . "' />";
     }
     
     function dbi_plugin_setting_start_date() {
         $options = get_option( 'slithyweb_plugin_options' );
-        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[start_date]' type='text' value='{esc_attr( $options['start_date'] )}' />";
+        echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[start_date]' type='text' value='" . esc_attr( $options['start_date'] ) . "' />";
     }
 }
