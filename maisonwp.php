@@ -8,8 +8,13 @@ if (!defined('WPINC')) die;
  * not a custormer of our hosting solutions, this part of the controller should never
  * be loaded.
  * 
- * The call to our backend is made directly by pag both the website identifier
- * (found in wp-config.php) and the authentification key.
+ * The call to our backend is made directly by an API key made of the website identifier
+ * (found in wp-config.php) and the authentification key. There is no need for strong
+ * security because the backend is in charge. For piracy, the hackers needs to guess the
+ * salt which is near impossible except if the website is compromised...
+ *
+ * In the first version of this plugin, the backend will reload the error and access logs
+ * not available to the PHP server if we are WP_DEBUG is set to true.
  *
  */
 class SlithyWebMonitoring {
@@ -27,16 +32,18 @@ class SlithyWebMonitoring {
         add_filter('updated_option', array($this, 'option_changed'));
     }
 
-
+    /**
+     *  Send a POST command to the server.
+     */
     function post($api, $args){
         $url = "{$this->rootUrl}/$api";
         $ret = wp_remote_post($url, array('headers' => $this->apiHeaders, 'body' => $args));
         if( $ret instanceof WP_Error){
             error_log("Error when calling $url: " . $ret->get_error_message());
         } else if($ret['body']){
-            // error_log("CALLED $url => " . $ret['body']);
+            // Results are correct
         } else {
-            error_log("RETURNED SPECIAL $url => " . print_r($ret, TRUE));
+            error_log("RETURNED UNEXPECTED $url => " . print_r($ret, TRUE));
         }
     }
 
@@ -49,12 +56,16 @@ class SlithyWebMonitoring {
                 $this->post("update_option", array('name'=> $option_name, 'value'=>$value));
                 break;
             default:
-                error_log("The update of the otion '$option_name' is not transmitted.");
+                if( WP_DEBUG ){
+                    error_log("The update of the otion '$option_name' is not transmitted.");
+                }
         }
     }
 
     /**
-     * Transmit the logs to the server
+     * Transmit the logs to the server. In fact, the backend will load the Apache logs stored
+     * in our architecture.
+     *
      */
     public function transmitLogs(){
         // error_log("Trying to load the logs...");

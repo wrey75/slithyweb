@@ -4,7 +4,7 @@
 // If this file is called directly, abort.
 if (!defined('WPINC')) die;
 
-include dirname(__FILE__)."/helpers.php";
+include_once dirname(__FILE__)."/helpers.php";
 
 use \Slithyweb\Helper as Helper;
 
@@ -13,8 +13,9 @@ use \Slithyweb\Helper as Helper;
  */
 class SlithyWebAdministrator extends Helper {
 
+    const GTAG_FIELD = 'slithyweb_gtag';
     const OPT_GROUP = 'slithyweb_plugin_options';
-    const API_SECTION = 'slithyweb_api_section';
+    const SETTINGS_SECTION = 'slithyweb_settings_section';
     const MENU_SLUG = 'slithyweb_admin_menu';
 
 
@@ -30,63 +31,65 @@ class SlithyWebAdministrator extends Helper {
         add_action( 'admin_init', array($this, 'register_my_settings'));
     }
 
+    /**
+     * Render the Admin page of the plugin.
+     */
     function render_my_settings_page() {
-        printf('<h1>%s</h1>', self::T("Slithy Web Plugin Settings"));
+        printf('<h1>%s</h1>', Helper::T("Slithy Web Plugin Settings"));
         printf('<h2>%s (<a href="https://maisonwp.com/">maisonwp.com</a>)</h2>', __("Slithy Web hosting", 'slithy-web'));
         if(defined("SLITHYWEB_ID")){
-            printf("<strong>%s:<strong> <code>%s</code> (%s)\n", self::T("Site identifier"), SLITHYWEB_ID, self::T("can not be changed"));
+            printf("<strong>%s:<strong> <code>%s</code> (%s)\n", Helper::T("Site identifier"), SLITHYWEB_ID, Helper::T("can not be changed"));
         } else {
-            self::parag("This Website is not hosted by our recommended hosting service. Never mind.");
+            Helper::parag("This Website is not hosted by our recommended hosting service. Never mind.");
         }
         if(defined("WP_DEBUG")){
-            printf("<p>%s %s</p>", self::T("WP_DEBUG is"), WP_DEBUG ? self::T("active") : self::T("disabled (PRODUCTION)"));
+            printf("<p>%s %s</p>", self::T("WP_DEBUG is"), WP_DEBUG ? Helper::T("active") : Helper::T("disabled (PRODUCTION)"));
         } else {
             printf("<p>%s</p>", self::T("WP_DEBUG is not set (means PRODUCTION mode)")); 
         }
         echo '<form action="options.php" method="post">';
-        settings_fields(self::OPT_GROUP);
-        do_settings_sections(self::OPT_GROUP);
+        settings_fields(self::SETTINGS_SECTION);
+        do_settings_sections(self::MENU_SLUG);
         submit_button();
         // printf( '<input name="submit" class="button button-primary" type="submit" value="%s" />', esc_attr__( 'Save' ));
         echo '</form>';
     }
 
     /**
-     * Register the settings of the administration page
+     * Register the settings of the admin page
      */
     function register_my_settings() {
-        register_setting( self::OPT_GROUP, 'slithyweb_plugin_options', array(
-                'sanitize_callback' => array($this, 'plugin_options_validate')
-            )
-        );
-        add_settings_section( self::API_SECTION, 
+        add_settings_section( self::SETTINGS_SECTION, 
             Helper::T('API Settings'),
             function() {
                 printf("<p>%s<p>\n", __('Here you can set all the options for using the API', 'slithy-web'));
             },
-            self::OPT_GROUP );
+            self::MENU_SLUG );
     
-        add_settings_field( 'plugin_setting_api_key', 'Google Key', function() {
-                    $options = get_option(self::API_SECTION);
-                    echo Helper::tag("input", array("id"=>'plugin_setting_api_key', "name"=>'slithyweb_plugin_options[api_key]', "type"=>'text', "value"=>$options['api_key']));
-                    }, self::OPT_GROUP, self::API_SECTION );
+        add_settings_field(self::GTAG_FIELD, Helper::T('Google Tracking ID'), function() {
+                    $option = get_option(self::GTAG_FIELD);
+                    echo Helper::tag("input", array("id"=>self::GTAG_FIELD, "placeholder"=>"UA-", "name"=>self::GTAG_FIELD, "type"=>'text', "value"=>$option /*[self::GTAG_FIELD]*/ ));
+                    }, self::MENU_SLUG, self::SETTINGS_SECTION );
         // add_settings_field( 'plugin_setting_results_limit', 'Results Limit', array($this, 'dbi_plugin_setting_results_limit'), 'slithyweb_api_plugin', 'api_settings' );
         // add_settings_field( 'plugin_setting_start_date', 'Start Date', array($this, 'dbi_plugin_setting_start_date'), 'slithyweb_api_plugin', 'api_settings' );
+        register_setting( self::SETTINGS_SECTION, self::GTAG_FIELD, array(
+                'sanitize_callback' => function ($input) {
+                            $newInput /*[self::GTAG_FIELD]*/ = strtoupper(trim($input /*[self::GTAG_FIELD] */));
+                            if ( ! preg_match( '/^ua-[0-9]*-[0-9]$/i', $newInput /*[self::GTAG_FIELD ]*/ ) ) {
+                                $newInput /*['api_key']*/ = '';
+                                add_settings_error('fields_main_input', self::GTAG_FIELD, Helper::T('Incorrect value for the tracking ID (should be UA-xxxxxx-1 (where x are digits)!'), 'error');
+                            }
+                            // print_r($newInput);
+                            return $newInput;
+                        }
+            )
+        );
     }
 
-    function plugin_options_validate($input) {
-        $newinput['api_key'] = trim( $input['api_key'] );
-        if ( ! preg_match( '/^[a-z0-9]{32}$/i', $newinput['api_key'] ) ) {
-            $newinput['api_key'] = '';
-        }
-    
-        return $newinput;
-    }
+    /**
+     *  A function to validate the user input.
+     */
 
-    function plugin_section_text() {
-        echo "<p>";
-        echo "</p>";
-    }
 
     function dbi_plugin_setting_api_key() {
         $options = get_option( 'slithyweb_plugin_options' );
@@ -102,3 +105,5 @@ class SlithyWebAdministrator extends Helper {
         echo "<input id='plugin_setting_api_key' name='slithyweb_plugin_options[start_date]' type='text' value='" . esc_attr( $options['start_date'] ) . "' />";
     }
 }
+
+
