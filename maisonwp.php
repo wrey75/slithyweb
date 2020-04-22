@@ -18,44 +18,46 @@ class SlithyWebMonitoring {
     public $apiHeaders;
 
     function __construct() {
-        $this->rootUrl = "http://localhost:8080/slithy";
+        $this->rootUrl = "https://app.slithyweb.com/slithy";
         $apikey = SLITHYWEB_ID . ':' . base64_encode(AUTH_KEY);
         $this->apiHeaders = array("x-api" => $apikey);
-	if(defined('WP_DEBUG') && WP_DEBUG){
+        if(defined('WP_DEBUG') && WP_DEBUG){
             $this->registerLogTransmission();
-	}
-	add_filter('updated_option', array($this, 'option_changed'));
+        }
+        add_filter('updated_option', array($this, 'option_changed'));
     }
 
 
     function post($api, $args){
-	$url = "{$this->rootUrl}/$api";
-	$ret = wp_remote_post($url, array('headers' => $this->apiHeaders, 'body' => $args));
-	if( $ret instanceof WP_Error){
-		error_log("Error when calling $url: " . $ret->get_error_message());
-	} else {
-		error_log("CALLED $url => $ret");
-	}
+        $url = "{$this->rootUrl}/$api";
+        $ret = wp_remote_post($url, array('headers' => $this->apiHeaders, 'body' => $args));
+        if( $ret instanceof WP_Error){
+            error_log("Error when calling $url: " . $ret->get_error_message());
+        } else if($ret['body']){
+            // error_log("CALLED $url => " . $ret['body']);
+        } else {
+            error_log("RETURNED SPECIAL $url => " . print_r($ret, TRUE));
+        }
     }
 
     public function option_changed($option_name) {
-	$value = get_option($option_name);
-	switch($option_name){
-	case 'blogname':
-	case 'blogdescription':
-	case 'siteurl':
-		$this->post("update_option", array('name'=> $option_name, 'value'=>$value));
-		break;
-	default:
-		error_log("The update of the otion '$option_name' is not transmitted.");
-	}
+        $value = get_option($option_name);
+        switch($option_name){
+            case 'blogname':
+            case 'blogdescription':
+            case 'siteurl':
+                $this->post("update_option", array('name'=> $option_name, 'value'=>$value));
+                break;
+            default:
+                error_log("The update of the otion '$option_name' is not transmitted.");
+        }
     }
 
     /**
      * Transmit the logs to the server
      */
     public function transmitLogs(){
-	error_log("Trying to load the logs...");
+        // error_log("Trying to load the logs...");
         $req_time = $_SERVER['REQUEST_TIME'];
         $this->post("logs", array("from" => $req_time));
     }
@@ -63,6 +65,5 @@ class SlithyWebMonitoring {
     function registerLogTransmission(){
         register_shutdown_function(array($this, 'transmitLogs'));
     }
-
 }
 
