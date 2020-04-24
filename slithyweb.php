@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Slithy Web
- * Plugin URI: http://my-awesomeness-emporium.com
+ * Plugin URI: https://github.com/wrey75/slithyweb
  * Description: a plugin to help users to setup their WordPres
  * Version: 0.10.1
  * Author: William Rey
