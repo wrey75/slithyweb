@@ -42,5 +42,14 @@ if (is_admin()){
 } else {
     include_once(dirname(__FILE__). "/basic.php");
     $slithyPlugin = new SlithyWebPlugin();
+
+    /*
+    if ( ! function_exists( 'is_plugin_active' ) ){
+        require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+    }
+    if (is_plugin_active("name-directory")) {
+        include_once(dirname(__FILE__). "/name-directory-ext.php");
+    }
+    */
 }
 

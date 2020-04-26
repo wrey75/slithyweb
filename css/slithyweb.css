@@ -1,0 +1,24 @@
+
+.slithy_tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.slithy_tooltip .slithy_tooltiptext {
+  visibility: hidden;
+  min-width: 320px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5pt;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.slithy_tooltip:hover .slithy_tooltiptext {
+  visibility: visible;
+}
