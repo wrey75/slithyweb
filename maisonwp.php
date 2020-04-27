@@ -55,9 +55,14 @@ class SlithyWebMonitoring {
             case 'siteurl':
                 $this->post("update_option", array('name'=> $option_name, 'value'=>$value));
                 break;
+            case 'cron':
+            case 'jetpack_next_sync_time_full-sync-enqueue':
+            case 'jp_sync_lock_full_sync':
+            case 'jetpack_protect_blocked_attempts':
+                break;
             default:
                 if( WP_DEBUG ){
-                    error_log("The update of the otion '$option_name' is not transmitted.");
+                    error_log("The update of the option '$option_name' is not transmitted.");
                 }
         }
     }
