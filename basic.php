@@ -22,22 +22,49 @@ class SlithyWebPlugin extends Helper {
         }
         add_action('init', function() {
             wp_register_style( "slithy_css", plugins_url(). '/slithyweb/css/slithyweb.css');
+            wp_register_script( "slithy_js", plugins_url(). '/slithyweb/js/slithyweb.js');
         });
         $this->add_the_shortcodes();
     }
 
     public function add_the_shortcodes() {
-        add_shortcode('page_extract', array($this, 'page_extract_shortcode'));
+        add_shortcode('slithy_extract', array($this, 'page_extract_shortcode'));
         add_shortcode('slithy_tooltip', array($this, 'tooltip_shortcode'));
     }
 
+    /**
+     *
+     * [slithy_tooltip] gives you the capability to add Tooltips in your pages or posts. To do this,
+     * simply add the shortcode with the agument 'text' that must contains the text of the shortcode.
+     */
     public function tooltip_shortcode($atts, $contents = null, $tag=''){
         extract(shortcode_atts(array(
                     'text' => null,
+                    'name' => null,
+                    'dir' => null,
                     'url' => null,
                     'style' => '',
                 ), $atts));
         wp_enqueue_style('slithy_css');
+        if( $name ){
+            global $wpdb;
+            // We rely on the "Name Directory" plugin if exists
+            $directory = intval($dir); 
+            $query = "SELECT description FROM {$wpdb->prefix}name_directory_name WHERE name = %s";
+            if($directory > 0){
+                // No need to escape, the value is an integer
+                $query .= " AND directory = $directory";
+            }
+            $final_query = $wpdb->prepare($query, $name);
+            $definition = $wpdb->get_var($final_query);
+            if($definition){
+                $text = $definition;
+                if(!$contents){
+                    // If we have found something and no contents provided, use the name as the text.
+                    $contents = $name;
+                }
+            }
+        }
         if(!$url && !$text){
             error_log('"text" or "url" is expected for shortcode [slithy_tooltip].');
             return esc_attr($contents);
@@ -51,14 +78,12 @@ class SlithyWebPlugin extends Helper {
 
     }
 
-    /*
     public function page_extract_shortcode($atts, $contents = null, $tag=''){
         extract(shortcode_atts(array(
                     'url' => $_SERVER['REQUEST_URI']
                 ), $atts));
         
     }
-    */
 
     public function google_write_gtag($gtag){
 ?>
