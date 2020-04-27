@@ -65,7 +65,12 @@ Your collected GA data will remain in your Google account.
 
 == Changelogs ==
 
-*Thank you to everyone who shares feedback for cwthe Slithy Web plugin!*
+*Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**v0.11.0 (April 2020)**
+
+* New feature: added a tooltip shortcode (with integration with the plugin <a href="https://fr.wordpress.org/plugins/name-directory/">Name Directory</a>).
+* FIX: now the plugin removes the option for Google Analytic Tag.
 
 **v0.10.0 (April 2020)**
 
