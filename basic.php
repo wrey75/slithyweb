@@ -16,9 +16,18 @@ class SlithyWebPlugin extends Helper {
     public $gtag;
 
     function __construct() {
-        $this->gtag = get_option('slithyweb_gtag', '');
-        if($this->gtag){
-            add_action('wp_head', function() { $this->google_write_gtag($this->gtag); });
+        if(!current_user_can( 'manage_options' )){
+            //  If the current use can manage options, he is an administrator.
+            //  Then DO NOT activate the Google Tag to avoid false reports
+            //  about visitors.
+            $this->gtag = get_option('slithyweb_gtag', '');
+            if($this->gtag){
+                add_action('wp_head', function() {
+                        if(!is_preview()){
+                            $this->google_write_gtag($this->gtag); 
+                        }
+                    });
+            }
         }
         add_action('init', function() {
             wp_register_style( "slithy_css", plugins_url(). '/slithyweb/css/slithyweb.css');

@@ -3,7 +3,7 @@
  * Plugin Name: Slithy Web
  * Plugin URI: https://github.com/wrey75/slithyweb
  * Description: a plugin to help users to setup their WordPres
- * Version: 0.10.1
+ * Version: 0.12.0
  * Author: William Rey
  * Author URI: http://wrey75.wordpress.com/
  * License: GPL2
@@ -30,26 +30,32 @@
 
 if (!defined('ABSPATH')) die();
 
-if (defined('SLITHYWEB_ID')){
-    include_once(dirname(__FILE__). "/maisonwp.php");
-    $slithywebMonitor = new SlithyWebMonitoring();
-}
+/**
+ * Add the "settings" in the plugin list (as some many other plugins)
+ */
+$slithy_plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$slithy_plugin", function($links) {
+    $settings_link = '<a href="options-general.php?page=slithyweb_admin_menu">' . __( 'Settings' ) . '</a>';
+    array_unshift( $links, $settings_link );
+    return $links;
+} );
 
-if (is_admin()){
-    include_once(dirname(__FILE__). "/basic.php");
-    include_once(dirname(__FILE__). "/admin-page.php");
-    $slithyAdminMonitor = new SlithyWebAdministrator();
-} else {
-    include_once(dirname(__FILE__). "/basic.php");
-    $slithyPlugin = new SlithyWebPlugin();
+/**
+ *  Activate only when plugins are loaded.
+ */
+add_action('plugins_loaded', function() {
+    if (defined('SLITHYWEB_ID')){
+        include_once(dirname(__FILE__). "/maisonwp.php");
+        $slithywebMonitor = new SlithyWebMonitoring();
+    }
 
-    /*
-    if ( ! function_exists( 'is_plugin_active' ) ){
-        require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+    if (is_admin()){
+        include_once(dirname(__FILE__). "/basic.php");
+        include_once(dirname(__FILE__). "/admin-page.php");
+        $slithyAdminMonitor = new SlithyWebAdministrator();
+    } else {
+        include_once(dirname(__FILE__). "/basic.php");
+        $slithyPlugin = new SlithyWebPlugin();
     }
-    if (is_plugin_active("name-directory")) {
-        include_once(dirname(__FILE__). "/name-directory-ext.php");
-    }
-    */
-}
+});
 

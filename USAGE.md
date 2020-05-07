@@ -23,6 +23,12 @@ If you use Google Analytics for the analysis of your visitors, you must add a sc
 the form `UA-xxxxxx-1` where xxxxxx are digits) in the field. The gtag (Google Tag) code
 will be added to all the pages of your website.
 
+The Google Analytic code is _only_ added if the user is _not_ an administrator. An administrator
+is someone who can manage options on the Website. This restriction is mainly added to avoid
+surestimated visits when the site has just started. You could avoid this if you ban some IP
+addresses and with some other rules on Google Analytics but the right way is to disable the count
+for administrators.
+
 ## Short codes
 
 Short codes are not part of the settings but available at your discretion in any posts
