@@ -8,9 +8,9 @@ Tags: analytics, ga, maisonwp
 Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
-Tested up to: 5.3
-Stable tag: v0.10.1
-Version: v0.10.1
+Tested up to: 5.5.1
+Stable tag: v0.10.0
+Version: v0.12.0
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -66,6 +66,10 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**v0.12.0 (October 2020)**
+
+* Compatibility with WordPress 5.5.1 
 
 **v0.11.0 (April 2020)**
 
