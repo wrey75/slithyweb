@@ -72,6 +72,8 @@ class SlithyWebPlugin extends Helper {
                     // If we have found something and no contents provided, use the name as the text.
                     $contents = $name;
                 }
+            } else {
+                error_log("Name '$name' not found in post " . get_the_ID() . ". Please check syntax." ); 
             }
         }
         if(!$url && !$text){

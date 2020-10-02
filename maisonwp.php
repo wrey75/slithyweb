@@ -53,17 +53,26 @@ class SlithyWebMonitoring {
             case 'blogname':
             case 'blogdescription':
             case 'siteurl':
+            case 'jetpack_site_icon_url':
                 $this->post("update_option", array('name'=> $option_name, 'value'=>$value));
                 break;
             case 'cron':
+            case 'user_hit_count':
             case 'jetpack_next_sync_time_full-sync-enqueue':
+            case 'jetpack_options':
+            case 'jetpack_constants_sync_checksum':
             case 'jp_sync_lock_full_sync':
+            case 'jetpack_sync_https_history_site_url':
             case 'jetpack_protect_blocked_attempts':
+            case 'stats_cache':
+            case 'autoptimize_imgopt_provider_stat':
+            case 'mwp_public_keys_refresh_time':
                 break;
             default:
-                if( WP_DEBUG ){
+                if( WP_DEBUG && strpos($option_name, "_transient_") !== 0 && strpos($option_name, "_site_transient_") !== 0){
                     error_log("The update of the option '$option_name' is not transmitted.");
                 }
+                break;
         }
     }
 

@@ -49,12 +49,11 @@ add_action('plugins_loaded', function() {
         $slithywebMonitor = new SlithyWebMonitoring();
     }
 
+    include_once(dirname(__FILE__). "/basic.php");
     if (is_admin()){
-        include_once(dirname(__FILE__). "/basic.php");
         include_once(dirname(__FILE__). "/admin-page.php");
         $slithyAdminMonitor = new SlithyWebAdministrator();
     } else {
-        include_once(dirname(__FILE__). "/basic.php");
         $slithyPlugin = new SlithyWebPlugin();
     }
 });
