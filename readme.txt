@@ -9,8 +9,8 @@ Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: v0.10.0
-Version: v0.12.0
+Stable tag: v0.12.3
+Version: v0.12.3
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -67,7 +67,7 @@ Your collected GA data will remain in your Google account.
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
 
-**v0.12.0 (October 2020)**
+**v0.12.3 (October 2020)**
 
 * Compatibility with WordPress 5.5.1 
 
