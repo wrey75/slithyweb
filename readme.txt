@@ -4,13 +4,13 @@ Plugin Name: Slithy Web
 Contributors: William Rey
 Plugin URI: https://github.com/wrey75/slithyweb
 Description: A plug-in used for clients of the MaisonWP hosting service. Also offer Google Analytics code inclusion.
-Tags: analytics, ga, maisonwp
+Tags: analytics, ga
 Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: v0.12.3
-Version: v0.12.3
+Stable tag: 1.15.1
+Version: 1.15.1
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -22,11 +22,12 @@ plugin also add functions available for everybody.
 
 == Description ==
 
-This plugin has been mainly developed for the clients of the MaisonWP hosting solution but also provides some features for all WordPress users.
+This plugin has been mainly developed for the clients of the SlithyWeb (slithyweb.com) hosting solution but also provides some features for all WordPress users.
 
 **Features**
 
 * Connects Google Analytics to WordPress
+* Automatic import of any site to the SlithyWeb hosting solution (for those interested).
 
 **Privacy**
 
@@ -66,6 +67,10 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**v1.15.0 (October 2020)**
+
+* Added the capability to export the Website and its database for a move on a third-party hosting service.
 
 **v0.12.3 (October 2020)**
 
