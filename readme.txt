@@ -9,8 +9,8 @@ Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: 1.15.1
-Version: 1.15.1
+Stable tag: 1.15.3
+Version: 1.15.3
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages

@@ -3,7 +3,7 @@
  * Plugin Name: Slithy Web
  * Plugin URI: https://github.com/wrey75/slithyweb
  * Description: a plugin to help users to setup their WordPres
- * Version: 0.12.0
+ * Version: 1.15.3
  * Author: William Rey
  * Author URI: http://wrey75.wordpress.com/
  * License: GPL2

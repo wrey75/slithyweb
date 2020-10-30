@@ -23,6 +23,10 @@
 
 $username = $_SERVER['PHP_AUTH_USER'];
 $password = $_SERVER['PHP_AUTH_PW'];
+if(!$username && $_POST['login']){
+	$username = $_POST['login'];
+	$password = $_POST['pwd'];
+}
 if (!$username || !$password) {
     header('WWW-Authenticate: Basic realm="Slithy Copy"');
     header('HTTP/1.0 401 Unauthorized');
@@ -121,6 +125,7 @@ function slithy_scan($dir){
  * At this point, the user is identified and has
  * the administrator capabilities
  */
+wp_ob_end_flush_all(); // To avoid a memory error for big files
 $request = $_GET["req"];
 if($request == 'dirs'){
 	// List the directories
