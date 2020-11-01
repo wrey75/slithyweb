@@ -35,7 +35,7 @@ if (!$username || !$password) {
 } 
 
 define('WP_USE_THEMES', false);
-require(dirname(__FILE__).'/../../../wp-load.php');
+require(dirname(__FILE__).'/../../../../wp-load.php');
 $user = wp_authenticate($username, $password);
 if(is_wp_error($user) || !$user->has_cap('administrator')){
 	// Hide the truth
@@ -48,6 +48,10 @@ function root($v){
 }
 
 function slithy_load($filename){
+	if($filename == "wp-config-php"){
+		header('HTTP/1.0 500 Server error');
+                die("This file is kept secret.");
+	}
 	$file = ABSPATH . $filename;
 	if (file_exists($file)) {
 		header('Content-Type: application/octet-stream');
@@ -101,8 +105,22 @@ function slithy_tables(){
 	foreach ($mytables as $mytable) {
 		foreach ($mytable as $t) {       
 			echo "$t\n";
-    		}
+		}
 	}
+}
+
+function slithy_md5($dir){
+	global $ROOT;
+	$array = scandir($dir);
+	foreach($array as $fic){
+		if($fic !== '.' && $fic !== '..'){
+			$fullpath = "$dir/$fic";
+			if(!is_dir($fullpath)){
+				echo md5_file($fullpath) . ' ' . root("$fullpath/") . "\n";
+			}
+		}
+	}
+	echo "---'$dir'";
 }
 
 function slithy_scan($dir){
@@ -121,6 +139,16 @@ function slithy_scan($dir){
 	}
 }
 
+function slithy_plugins(){
+	if ( ! function_exists( 'get_plugins' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	foreach(get_plugins() as $id => $plugin){
+		echo $id . " " . $plugin['Version'] . "\n";
+	}
+}
+
 /*
  * At this point, the user is identified and has
  * the administrator capabilities
@@ -131,13 +159,16 @@ if($request == 'dirs'){
 	// List the directories
 	slithy_scan(preg_replace(':/$:', '', ABSPATH));
 } else if($request == 'file'){
-	// Load a file...
 	$filename = $_GET["file"];
 	slithy_load($filename);
+} else if($request == 'plugins'){
+	slithy_plugins();
 } else if($request == 'schema'){
-	// Load the table list
 	$table = $_GET["table"];
 	slithy_structure($table);
+} else if($request == 'md5'){
+	$dir = $_GET["dir"];
+	slithy_md5(ABSPATH . preg_replace(':^/:', '', $dir));
 } else if($request == 'data'){
 	// Load the table list
 	$table = $_GET["table"];
@@ -147,10 +178,13 @@ if($request == 'dirs'){
 	slithy_tables();
 } else if($request == 'test'){
 	echo "OK\n";
+} else if($request == 'infos'){
+	echo "prefix:$table_prefix\n";
+	echo "WP_DEBUG:". (WP_DEBUG ? "true" : "false") . "\n";
+	echo "DB_COLLATE:". DB_COLLATE . "\n";
+	echo "DB_CHARSET:". DB_CHARSET . "\n";
 } else {
 	header("HTTP/1.0 500 Server error");
 	die("Bad request.");
 }
-
-
 

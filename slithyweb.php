@@ -45,13 +45,13 @@ add_filter( "plugin_action_links_$slithy_plugin", function($links) {
  */
 add_action('plugins_loaded', function() {
     if (defined('SLITHYWEB_ID')){
-        include_once(dirname(__FILE__). "/maisonwp.php");
+        include_once(dirname(__FILE__). "/inc/maisonwp.php");
         $slithywebMonitor = new SlithyWebMonitoring();
     }
 
-    include_once(dirname(__FILE__). "/basic.php");
+    include_once(dirname(__FILE__). "/inc/basic.php");
     if (is_admin()){
-        include_once(dirname(__FILE__). "/admin-page.php");
+        include_once(dirname(__FILE__). "/inc/admin-page.php");
         $slithyAdminMonitor = new SlithyWebAdministrator();
     } else {
         $slithyPlugin = new SlithyWebPlugin();
