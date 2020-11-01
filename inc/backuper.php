@@ -179,7 +179,8 @@ if($request == 'dirs'){
 } else if($request == 'test'){
 	echo "OK\n";
 } else if($request == 'infos'){
-	echo "prefix:$table_prefix\n";
+	global $wpdb;
+	echo "prefix:$wpdb->prefix\n";
 	echo "WP_DEBUG:". (WP_DEBUG ? "true" : "false") . "\n";
 	echo "DB_COLLATE:". DB_COLLATE . "\n";
 	echo "DB_CHARSET:". DB_CHARSET . "\n";
