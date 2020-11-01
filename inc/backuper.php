@@ -120,7 +120,33 @@ function slithy_md5($dir){
 			}
 		}
 	}
-	echo "---'$dir'";
+}
+
+function _add_dir($zip, $dir, $root, $recursive){
+	$array = scandir($dir);
+	foreach($array as $fic){
+		if($fic !== '.' && $fic !== '..'){
+			$fullpath = "$dir/$fic";
+			if(!is_dir($fullpath)){
+				$zip->addFile($fullpath, "$root$fic");
+			} else if($recursive){
+				_add_dir($zip, "$dir/$fic", "$root$fic/", true);
+			}
+		}
+	}
+}
+
+function slithy_zipfile($dir, $recursive){
+	global $ROOT;
+	$zip = new ZipArchive();
+	$tmpfname = tempnam(sys_get_temp_dir(), "exp") . ".zip";
+	$ret = $zip->open($tmpfname, ZipArchive::OVERWRITE | ZipArchive::CREATE);
+	if($ret === TRUE){
+		_add_dir($zip, $dir, "", $recursive);
+		$zip->close();
+		readfile($tmpfname);
+	}
+	unlink($tmpfname);
 }
 
 function slithy_scan($dir){
@@ -169,6 +195,11 @@ if($request == 'dirs'){
 } else if($request == 'md5'){
 	$dir = $_GET["dir"];
 	slithy_md5(ABSPATH . preg_replace(':^/:', '', $dir));
+} else if($request == 'zip'){
+	// Load the table list
+	$dir = $_GET["dir"];
+	$recursive = !!$_GET["recursive"];
+	slithy_zipfile(ABSPATH . preg_replace(':^/:', '', $dir), $recursive);
 } else if($request == 'data'){
 	// Load the table list
 	$table = $_GET["table"];
@@ -184,6 +215,9 @@ if($request == 'dirs'){
 	echo "WP_DEBUG:". (WP_DEBUG ? "true" : "false") . "\n";
 	echo "DB_COLLATE:". DB_COLLATE . "\n";
 	echo "DB_CHARSET:". DB_CHARSET . "\n";
+	echo "WP_CONTENT_URL:". WP_CONTENT_URL . "\n";
+	echo "WP_PLUGIN_URL:". WP_PLUGIN_URL . "\n";
+	echo "ZipArchive:". (class_exists('ZipArchive') ? "true": "false") . "\n";
 } else {
 	header("HTTP/1.0 500 Server error");
 	die("Bad request.");
