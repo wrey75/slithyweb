@@ -14,6 +14,9 @@ use \Slithyweb\Helper as Helper;
 class SlithyWebAdministrator extends Helper {
 
     const GTAG_FIELD = 'slithyweb_gtag';
+    const ETAG_FIELD = 'slithyweb_etag';
+    const MAX_AGE_FIELD = 'slithyweb_maxage';
+    const LAST_MODIFIED_FIELD = 'slithyweb_last_modified';
     const OPT_GROUP = 'slithyweb_plugin_options';
     const SETTINGS_SECTION = 'slithyweb_settings_section';
     const MENU_SLUG = 'slithyweb_admin_menu';
@@ -68,22 +71,46 @@ class SlithyWebAdministrator extends Helper {
     
         add_settings_field(self::GTAG_FIELD, Helper::T('Google Tracking ID'), function() {
                     $option = get_option(self::GTAG_FIELD);
-                    echo Helper::tag("input", array("id"=>self::GTAG_FIELD, "placeholder"=>"UA-", "name"=>self::GTAG_FIELD, "type"=>'text', "value"=>$option /*[self::GTAG_FIELD]*/ ));
+                    echo Helper::tag("input", array("id"=>self::GTAG_FIELD, "placeholder"=>"UA-", "name"=>self::GTAG_FIELD, "type"=>'text', "value"=>$option ));
+                    }, self::MENU_SLUG, self::SETTINGS_SECTION );
+    
+        add_settings_field(self::MAX_AGE_FIELD, Helper::T('Cache duration'), function() {
+                    $option = get_option(self::MAX_AGE_FIELD);
+                    echo Helper::tag("input", array("id"=>self::MAX_AGE_FIELD, "name"=>self::MAX_AGE_FIELD, "type"=>'text', "value"=>$option ));
+                    }, self::MENU_SLUG, self::SETTINGS_SECTION );
+    
+        add_settings_field(self::ETAG_FIELD, Helper::T('Etag header'), function() {
+                    $option = get_option(self::ETAG_FIELD);
+                    echo '<input type="checkbox" name="' . self::ETAG_FIELD . '" value="1" ' . checked(1, get_option(self::ETAG_FIELD), false) . ">";
+                    }, self::MENU_SLUG, self::SETTINGS_SECTION );
+    
+        add_settings_field(self::LAST_MODIFIED_FIELD, Helper::T('Last-modified headers'), function() {
+                    $option = get_option(self::LAST_MODIFIED_FIELD);
+                    echo '<input type="checkbox" name="' . self::LAST_MODIFIED_FIELD . '" value="1" ' . checked(1, get_option(self::LAST_MODIFIED_FIELD), false) . ">";
                     }, self::MENU_SLUG, self::SETTINGS_SECTION );
         // add_settings_field( 'plugin_setting_results_limit', 'Results Limit', array($this, 'dbi_plugin_setting_results_limit'), 'slithyweb_api_plugin', 'api_settings' );
         // add_settings_field( 'plugin_setting_start_date', 'Start Date', array($this, 'dbi_plugin_setting_start_date'), 'slithyweb_api_plugin', 'api_settings' );
         register_setting( self::SETTINGS_SECTION, self::GTAG_FIELD, array(
                 'sanitize_callback' => function ($input) {
-                            $newInput /*[self::GTAG_FIELD]*/ = strtoupper(trim($input /*[self::GTAG_FIELD] */));
-                            if ( ! preg_match( '/^ua-[0-9]*-[0-9]$/i', $newInput /*[self::GTAG_FIELD ]*/ ) ) {
-                                $newInput /*['api_key']*/ = '';
+                            $newInput = strtoupper(trim($input));
+                            if ( ! preg_match( '/^ua-[0-9]*-[0-9]$/i', $newInput) ) {
+                                $newInput = '';
                                 add_settings_error('fields_main_input', self::GTAG_FIELD, Helper::T('Incorrect value for the tracking ID (should be UA-xxxxxx-1 (where x are digits)!'), 'error');
                             }
                             // print_r($newInput);
                             return $newInput;
                         }
-            )
-        );
+            ));
+        register_setting( self::SETTINGS_SECTION, self::ETAG_FIELD, array(
+                'sanitize_callback' => function ($input) { return !!$input ? "1" : "0"; }
+            ));
+        register_setting( self::SETTINGS_SECTION, self::LAST_MODIFIED_FIELD, array(
+                'sanitize_callback' => function ($input) { return !!$input ? "1" : "0"; }
+            ));
+        register_setting( self::SETTINGS_SECTION, self::MAX_AGE_DURATION, array(
+                'sanitize_callback' => function ($input) { return intval($input); }
+            ));
+
     }
 
     /**

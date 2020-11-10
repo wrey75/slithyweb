@@ -2,15 +2,15 @@
 
 Plugin Name: Slithy Web
 Contributors: William Rey
-Plugin URI: https://github.com/wrey75/slithyweb
+Plugin URI: https://www.slithyweb.com/plugin-slithyweb/
 Description: A plug-in used for clients of the MaisonWP hosting service. Also offer Google Analytics code inclusion.
 Tags: analytics, ga
 Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: 1.16.0
-Version: 1.16.0
+Stable tag: 1.17.0
+Version: 1.17.0
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages

@@ -16,6 +16,51 @@ class SlithyWebPlugin extends Helper {
     public $gtag;
 
     function __construct() {
+		add_action( 'template_redirect', function() use ( &$wp ) {
+			/**
+			 * The following code add a 304 response in case of the "If-None-Match" has been
+			 * sent and the post has been pushed before. Note this algorithm works only for
+			 * posts and pages. It should give faster responses when a user go back to the
+			 * page.
+			 *
+			 */
+	    	if(is_singular() && !is_preview() && !is_user_logged_in() && !headers_sent()){
+    			$headers = headers_list();
+				$requested = @$_SERVER['HTTP_IF_NONE_MATCH'];
+    			if((empty( $headers['etag'] ) || !empty($requested)) && !!get_option('slithyweb_etag', '0')){
+					$post_id = get_the_ID();
+					$last_modified = get_lastpostmodified();
+    				$etag = "wp-${post_id}-" . preg_replace('/[^0-9]/', '-', $last_modified);
+					// echo "REQUESTED: '$requested'";
+					if(!empty($requested) && strstr($requested, $etag) !== FALSE){
+						header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
+						die(); // Do NOT go further
+					}
+    				if( $post_id && $last_modified && ! headers_sent() )
+        				header("Etag: $etag");	
+				}
+
+				$since_last = @$_SERVER['HTTP_IF_MODIFIED_SINCE'];
+    			if( (empty( $headers['last-modified'] ) || !empty($since_last)) && !!get_option('slithyweb_last_modified', '0')){
+					$last_modified = get_lastpostmodified( 'GMT' );
+					$timestamp = strtotime($since_last);
+					if($timestamp > 0 && strcmp(date('Y-m-d H:i:s', $timestamp), $last_modified) >= 0){
+						header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
+						die(); // Do NOT go further
+					}
+
+    				// Add last modified header
+    				if( $last_modified && ! headers_sent() )
+        				header( "Last-Modified: " . mysql2date( 'D, d M Y H:i:s', $last_modified, false) . ' GMT' );
+				}
+    			if( empty( $headers['cache-control'] )){
+					$cache_duration = intval(get_option('slithyweb_maxage', "60")) * 60;
+					if($cache_duration > 0){
+        				header( "Cache-control: max-age=" . $cache_duration);
+					}
+				}
+			}
+		});
         if(!current_user_can( 'manage_options' )){
             //  If the current use can manage options, he is an administrator.
             //  Then DO NOT activate the Google Tag to avoid false reports

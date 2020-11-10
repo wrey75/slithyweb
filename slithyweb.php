@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: Slithy Web
- * Plugin URI: https://github.com/wrey75/slithyweb
- * Description: a plugin to help users to setup their WordPres
- * Version: 1.16.0
+ * Plugin URI: https://www.slithyweb.com/plugin-slithyweb/
+ * Description: a plugin to help users to setup their WordPress
+ * Version: 1.17.0
  * Author: William Rey
  * Author URI: http://wrey75.wordpress.com/
  * License: GPL2
@@ -29,6 +29,12 @@
 */
 
 if (!defined('ABSPATH')) die();
+
+register_activation_hook(__FILE__, function() {
+    add_option('slithyweb_etag', 1);
+    add_option('slithyweb_maxage', 180);
+    add_option('slithyweb_last_modified', 1);	
+});
 
 /**
  * Add the "settings" in the plugin list (as some many other plugins)
