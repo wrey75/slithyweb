@@ -107,7 +107,7 @@ class SlithyWebAdministrator extends Helper {
         register_setting( self::SETTINGS_SECTION, self::LAST_MODIFIED_FIELD, array(
                 'sanitize_callback' => function ($input) { return !!$input ? "1" : "0"; }
             ));
-        register_setting( self::SETTINGS_SECTION, self::MAX_AGE_DURATION, array(
+        register_setting( self::SETTINGS_SECTION, self::MAX_AGE_FIELD, array(
                 'sanitize_callback' => function ($input) { return intval($input); }
             ));
 
