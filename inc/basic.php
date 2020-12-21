@@ -15,6 +15,15 @@ class SlithyWebPlugin extends Helper {
 
     public $gtag;
 
+	public static function show304andExit() {
+		$protocol = $_SERVER["SERVER_PROTOCOL"];
+		if ($protocol != 'HTTP/1.1' && $protocol != 'HTTP/1.0') {
+			$protocol = 'HTTP/1.0';
+		}
+		header($protocol . ' 304 Not Modified');
+		exit(0);
+	}
+
     function __construct() {
 		add_action( 'template_redirect', function() use ( &$wp ) {
 			/**
@@ -33,8 +42,7 @@ class SlithyWebPlugin extends Helper {
     				$etag = "wp-${post_id}-" . preg_replace('/[^0-9]/', '-', $last_modified);
 					// echo "REQUESTED: '$requested'";
 					if(!empty($requested) && strstr($requested, $etag) !== FALSE){
-						header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
-						die(); // Do NOT go further
+						self::show304andExit();
 					}
     				if( $post_id && $last_modified && ! headers_sent() )
         				header("Etag: $etag");	
@@ -45,8 +53,7 @@ class SlithyWebPlugin extends Helper {
 					$last_modified = get_lastpostmodified( 'GMT' );
 					$timestamp = strtotime($since_last);
 					if($timestamp > 0 && strcmp(date('Y-m-d H:i:s', $timestamp), $last_modified) >= 0){
-						header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
-						die(); // Do NOT go further
+						self::show304andExit();
 					}
 
     				// Add last modified header

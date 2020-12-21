@@ -4,7 +4,7 @@
 if (!defined('WPINC')) die;
 
 /**
- * This class is ONLY used for the monitoring of the website by "MaisonWP". If you are
+ * This class is ONLY used for the monitoring of the website by "SlithyWEB". If you are
  * not a custormer of our hosting solutions, this part of the controller should never
  * be loaded.
  * 

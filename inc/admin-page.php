@@ -39,7 +39,7 @@ class SlithyWebAdministrator extends Helper {
      */
     function render_my_settings_page() {
         printf('<h1>%s</h1>', Helper::T("Slithy Web Plugin Settings"));
-        printf('<h2>%s (<a href="https://maisonwp.com/">maisonwp.com</a>)</h2>', __("Slithy Web hosting", 'slithy-web'));
+        printf('<h2>%s (<a href="https://www.slithyweb.com/">slithyweb.com</a>)</h2>', __("Slithy Web hosting", 'slithy-web'));
         if(defined("SLITHYWEB_ID")){
             printf("<strong>%s:<strong> <code>%s</code> (%s)\n", Helper::T("Site identifier"), SLITHYWEB_ID, Helper::T("can not be changed"));
         } else {
@@ -74,7 +74,7 @@ class SlithyWebAdministrator extends Helper {
                     echo Helper::tag("input", array("id"=>self::GTAG_FIELD, "placeholder"=>"UA-", "name"=>self::GTAG_FIELD, "type"=>'text', "value"=>$option ));
                     }, self::MENU_SLUG, self::SETTINGS_SECTION );
     
-        add_settings_field(self::MAX_AGE_FIELD, Helper::T('Cache duration'), function() {
+        add_settings_field(self::MAX_AGE_FIELD, Helper::T('Cache duration (in minutes)'), function() {
                     $option = get_option(self::MAX_AGE_FIELD);
                     echo Helper::tag("input", array("id"=>self::MAX_AGE_FIELD, "name"=>self::MAX_AGE_FIELD, "type"=>'text', "value"=>$option ));
                     }, self::MENU_SLUG, self::SETTINGS_SECTION );

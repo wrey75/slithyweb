@@ -3,31 +3,35 @@
 Plugin Name: Slithy Web
 Contributors: William Rey
 Plugin URI: https://www.slithyweb.com/plugin-slithyweb/
-Description: A plug-in used for clients of the MaisonWP hosting service. Also offer Google Analytics code inclusion.
-Tags: analytics, ga
+Description: A plug-in used for clients of the SlithyWEB hosting service. Also offer some stuff like tooltips, basic cache and an easy Google Analytics add-on.
+Tags: analytics, ga, tooltip
 Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
-Tested up to: 5.5.1
-Stable tag: 1.17.0
-Version: 1.17.0
+Tested up to: 5.6
+Stable tag: 1.17.1
+Version: 1.17.1
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Mainly provided for clients of the integrated MaisonWP hosting solution, this
-plugin also add functions available for everybody.
+Even provided for clients of the integrated <a href="http://www.slithyweb.com">SlithyWeb</a> hosting solution, this
+plugin also add some functions available for all.
 
 == Description ==
 
-This plugin has been mainly developed for the clients of the SlithyWeb (slithyweb.com) hosting solution but also provides some features for all WordPress users.
+This plugin has been mainly developed for the clients of the SlithyWeb (slithyweb.com) hosting solutioni for synchronization
+purposes but also provides some features for all WordPress users.
 
 **Features**
 
-* Connects Google Analytics to WordPress
-* Automatic import of any site to the SlithyWeb hosting solution (for those interested).
+* Connects Google Analytics to WordPress.
+* Add tooltips though shortcodes.
+* Add basic cache for browsers.
+* Automatic import of any site to the SlithyWeb hosting solution (beta version).
+
 
 **Privacy**
 
@@ -46,7 +50,7 @@ After configuring your settings, you can verify that GA tracking code is include
 
 **Usage**
 
-If your Website is hosted by MaisonWP, the link is automatically done. There is no other configuration to do.
+If your Website is hosted by <a href="http://www.slithyweb.com/">SlithyWeb</a>, the link is automatically done. There is no other configuration to do.
 
 To enable Google Analytics tracking on your site, follow these steps:
 
@@ -67,6 +71,15 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**1.17.1**
+
+* Clarification about the cache duration (must be set in minutes and have a default value of 1 hour if not specified).
+
+**1.17.0**
+
+* Added an import interface to test the <a href="http://www.slithyweb.com">SlithyWeb</a> hosting solution.
+* Added basic cache functionality to serve 304 responses when possible.
 
 **1.16.0**
 
@@ -99,9 +112,9 @@ Your collected GA data will remain in your Google account.
 
 == Frequently Asked Questions ==
 
-= Is the plugin is limited to MaisonWP clients? =
+= Is the plugin is limited to SlithyWeb clients? =
 
-Even if the plugin mainly focuses on MaisonWP users, this plugin can be used by everybody for adding the Google Analytics tag.
+Even if the plugin mainly focuses on SlithyWeb users (<a href="http://slithyweb.com/">slithyweb.com</a>), this plugin can be used by everybody for adding the Google Analytics tag.
 
 
 == Screenshots ==
