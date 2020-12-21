@@ -76,6 +76,7 @@ class SlithyWebAdministrator extends Helper {
     
         add_settings_field(self::MAX_AGE_FIELD, Helper::T('Cache duration (in minutes)'), function() {
                     $option = get_option(self::MAX_AGE_FIELD);
+					if(!$option) $option = 60; // Default value
                     echo Helper::tag("input", array("id"=>self::MAX_AGE_FIELD, "name"=>self::MAX_AGE_FIELD, "type"=>'text', "value"=>$option ));
                     }, self::MENU_SLUG, self::SETTINGS_SECTION );
     
@@ -93,9 +94,9 @@ class SlithyWebAdministrator extends Helper {
         register_setting( self::SETTINGS_SECTION, self::GTAG_FIELD, array(
                 'sanitize_callback' => function ($input) {
                             $newInput = strtoupper(trim($input));
-                            if ( ! preg_match( '/^ua-[0-9]*-[0-9]$/i', $newInput) ) {
+                            if (!$newInput && !preg_match( '/^ua-[0-9]*-[0-9]$/i', $newInput) ) {
                                 $newInput = '';
-                                add_settings_error('fields_main_input', self::GTAG_FIELD, Helper::T('Incorrect value for the tracking ID (should be UA-xxxxxx-1 (where x are digits)!'), 'error');
+                                add_settings_error('fields_main_input', self::GTAG_FIELD, Helper::T('Incorrect value for the tracking ID (should be UA-xxxxxx-x (where x are digits)!'), 'error');
                             }
                             // print_r($newInput);
                             return $newInput;
