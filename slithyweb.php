@@ -3,7 +3,7 @@
  * Plugin Name: Slithy Web
  * Plugin URI: https://www.slithyweb.com/plugin-slithyweb/
  * Description: a plugin to help users to setup their WordPress
- * Version: 1.17.0
+ * Version: 1.17.1
  * Author: William Rey
  * Author URI: http://wrey75.wordpress.com/
  * License: GPL2
@@ -51,7 +51,7 @@ add_filter( "plugin_action_links_$slithy_plugin", function($links) {
  */
 add_action('plugins_loaded', function() {
     if (defined('SLITHYWEB_ID')){
-        include_once(dirname(__FILE__). "/inc/maisonwp.php");
+        include_once(dirname(__FILE__). "/inc/slithy.php");
         $slithywebMonitor = new SlithyWebMonitoring();
     }
 
