@@ -86,8 +86,8 @@ class SlithyWebPlugin extends Helper {
 
     public function add_the_shortcodes() {
         add_action('init', function() {
-            wp_register_style( "slithy_css", plugin_dir_url(__FILE__). '/../css/slithyweb.css');
-            wp_register_script( "slithy_js", plugins_url(__FILE__). '/../js/slithyweb.js');
+            wp_register_style( "slithy_css", plugin_dir_url(__FILE__). '/css/slithyweb.css');
+            wp_register_script( "slithy_js", plugins_url(__FILE__). '/js/slithyweb.js');
         });
         add_shortcode('slithy_extract', array($this, 'page_extract_shortcode'));
         add_shortcode('slithy_tooltip', array($this, 'tooltip_shortcode'));
