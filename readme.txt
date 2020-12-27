@@ -9,8 +9,8 @@ Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.6
-Stable tag: 1.17.2
-Version: 1.17.2
+Stable tag: 1.17.3
+Version: 1.17.3
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -71,6 +71,10 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**1.17.3**
+
+* Fixed a bug linked to missing CSS for tooltips.
 
 **1.17.2**
 
