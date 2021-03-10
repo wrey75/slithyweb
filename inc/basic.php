@@ -9,7 +9,8 @@ include_once dirname(__FILE__)."/helpers.php";
 use \Slithyweb\Helper as Helper;
 
 /**
- * This class is used when the administrator pages are requested.
+ * This class is used on every page of the Website. We try to keep a minimal
+ * stuff to avoid losing time for nothing.
  */
 class SlithyWebPlugin extends Helper {
 
@@ -25,6 +26,22 @@ class SlithyWebPlugin extends Helper {
 	}
 
     function __construct() {
+		if(defined("SLITHYWEB_CACHE") && SLITHY_WEB_CACHE === 'SIMPLE'){
+			// When we have a simple cache, then better to delete ALL
+			// the cache when a post is modified.
+			add_action('save_post', function($post_id, $post, $update) {
+				if( ! $update ) return; // Not for new posts
+				if( wp_is_post_revision( $post_id ) ) return;
+				if( defined( 'DOING_AUTOSAVE' ) and DOING_AUTOSAVE ) return;
+				$dir = dirname( ABSPATH ) . '/cache';
+				foreach( scandir($dir) as $file ){
+					if(substr($file, 0, 1) !== '.'){
+						@unlink("$dir/$file");
+					}
+				}
+			}, 10, 3);
+		}
+
 		add_action( 'template_redirect', function() use ( &$wp ) {
 			/**
 			 * The following code add a 304 response in case of the "If-None-Match" has been
@@ -135,8 +152,8 @@ class SlithyWebPlugin extends Helper {
         if($url != null){
             error_log('"url" capability not yet available for shortcode [slithy_tooltip].');
         }
-        return '<span class="slithy_tooltip">' . esc_attr($contents)
-                    . '<span class="slithy_tooltiptext">' . esc_attr($text)
+        return '<span class="slithy_tooltip" title="'.esc_attr($text).'">' . esc_attr($contents)
+                    . '<span class="slithy_tooltiptext">' . $text
                     . '</span></span>';
 
     }

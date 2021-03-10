@@ -8,9 +8,9 @@ Tags: analytics, ga, tooltip
 Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
-Tested up to: 5.6
-Stable tag: 1.17.4
-Version: 1.17.4
+Tested up to: 5.7
+Stable tag: 1.18.0
+Version: 1.18.0
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -71,6 +71,10 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**1.18.0**
+
+Added support for the cache provided by the SlithyWeb hosting company. Basically, deletes the cache whenever a post has been inserted or updated to ensure we do not read old stuff.
 
 **1.17.4**
 
