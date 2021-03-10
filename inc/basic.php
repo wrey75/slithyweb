@@ -26,7 +26,7 @@ class SlithyWebPlugin extends Helper {
 	}
 
     function __construct() {
-		if(defined("SLITHYWEB_CACHE") && SLITHY_WEB_CACHE === 'SIMPLE'){
+		if(defined('SLITHYWEB_CACHE') && SLITHYWEB_CACHE === 'SIMPLE'){
 			// When we have a simple cache, then better to delete ALL
 			// the cache when a post is modified.
 			add_action('save_post', function($post_id, $post, $update) {
