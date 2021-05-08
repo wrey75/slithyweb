@@ -108,7 +108,17 @@ class SlithyWebPlugin extends Helper {
         });
         add_shortcode('slithy_extract', array($this, 'page_extract_shortcode'));
         add_shortcode('slithy_tooltip', array($this, 'tooltip_shortcode'));
+        add_shortcode('slithy_login', array($this, 'slithy_login'));
     }
+
+	/**
+     *	Code inspired by https://wordpress.stackexchange.com/a/232661/206156
+	 */
+    public function slithy_login($atts, $contents = null, $tag=''){
+		if (!is_user_logged_in()) {
+        	auth_redirect();
+    	}
+	}
 
     /**
      *

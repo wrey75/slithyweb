@@ -9,8 +9,8 @@ Author: William Rey
 Author URI: https://wrey75.wordpress.com/
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.18.0
-Version: 1.18.0
+Stable tag: 1.19.0
+Version: 1.19.0
 Requires PHP: 7.0
 Text Domain: slithy-web
 Domain Path: /languages
@@ -71,6 +71,11 @@ Your collected GA data will remain in your Google account.
 == Changelogs ==
 
 *Thank you to everyone who shares feedback for the Slithy Web plugin!*
+
+**1.19.0**
+
+Added a shortcode [slithy_login] to force the login of a user (for memberships). This is a very simple
+implementation that could evolve in the future.
 
 **1.18.0**
 
