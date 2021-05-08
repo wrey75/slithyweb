@@ -1,4 +1,11 @@
 
+Please, check the file "readme.txt" for more information. This file not no
+more updated for all changes.
+
+## v0.19.0 (May 2021)
+
+* Added a shortcode for forcing the login of a user on a page.
+
 ## v0.12.0 (May 2020)
 
 * NEW: The plugin is now loaded on the "plugins\_loaded" action.
